@@ -40,12 +40,18 @@ def main_funktion():#contains all necessary methods and functions
             return True
         else:
             return False
+        
+    def get_age(person_to_be_determined):
+        age_to_be_determined = dt.datetime.strptime(person_to_be_determined["bd"],"%Y")
+        #time_delta = int(dt.datetime.strptime(current_date,"%Y")) - int(age_to_be_determined)
+        #return time_delta
 
     for person in persons_arr:
         if(len(person) < 4):
             error_message = "Csv incomplete, Csv Format should be: surname,firstname,date of birth(dd.mm.yyyy),gender(,image)"
             Error_ourput(error_message)
             raise ValueError("Csv incomplete, Csv Format should be: surname,firstname,date of birth(dd.mm.yyyy),gender(,image)")
+        
         if(len(person) == 4 and compare_date(str(current_date),str(person[2]))):
             persons_dict.append({ #persons dict for persons without picture
             "firstname": person[1],
@@ -69,10 +75,13 @@ def main_funktion():#contains all necessary methods and functions
             error_message = "Csv can't have more than 6 components"
             Error_ourput(error_message)
             raise ValueError("Csv can't have more than 6 components")
+    
+    for birthday_person in persons_dict:
+        print(get_age(birthday_person))
 
     sg.theme('DarkBlue8')
     layout_arr = [] #layout of the birthday display
-    layout_arr.append([sg.Text('Geburtstagskalender')])#checks if there are birthday
+    layout_arr.append([sg.Text('Geburtstagskalender')])#checks if there are birthdays
     if len(persons_dict) == 0:
         layout_arr.append([sg.Text("Heute hat niemand Geburtstag")])
     for i in range(len(persons_dict)):
@@ -93,5 +102,4 @@ def main_funktion():#contains all necessary methods and functions
     
     window.close()
 main_funktion()
-#print(current_hour)
 
